@@ -12,8 +12,24 @@
     <p class="subtitle">Speak to add events to your calendar</p>
 
     <button id="micBtn">🎤 Start Listening</button>
+
     <div id="status">Click the button and speak...</div>
     <div id="transcript"></div>
+
+    <div id="durationSection" style="display:none;">
+      <p class="duration-label">Select event duration:</p>
+      <div class="duration-buttons">
+        <button class="dur-btn" data-minutes="15">15 min</button>
+        <button class="dur-btn" data-minutes="30">30 min</button>
+        <button class="dur-btn" data-minutes="60">1 hour</button>
+        <button class="dur-btn" data-minutes="120">2 hours</button>
+      </div>
+      <div class="custom-duration">
+        <input type="number" id="customMinutes" placeholder="Custom (minutes)" min="1" max="480" />
+        <button id="customBtn">Set</button>
+      </div>
+    </div>
+
     <div id="result"></div>
   </div>
 

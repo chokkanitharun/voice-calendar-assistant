@@ -96,3 +96,70 @@ h1 {
   color: #ef4444;
   border: 1px solid #ef4444;
 }
+
+.duration-label {
+  color: #94a3b8;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.duration-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.dur-btn {
+  background: #1e1e3a;
+  color: #a78bfa;
+  border: 1px solid #6366f1;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.dur-btn:hover {
+  background: #6366f1;
+  color: white;
+}
+
+.custom-duration {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.custom-duration input {
+  background: #0f0f1a;
+  border: 1px solid #6366f1;
+  color: #e2e8f0;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  width: 180px;
+  outline: none;
+}
+
+.custom-duration input::placeholder {
+  color: #64748b;
+}
+
+#customBtn {
+  background: #1e1e3a;
+  color: #a78bfa;
+  border: 1px solid #6366f1;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+#customBtn:hover {
+  background: #6366f1;
+  color: white;
+}
