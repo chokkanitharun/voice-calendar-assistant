@@ -21,7 +21,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
   width: 90%;
-  max-width: 500px;
+  max-width: 550px;
 }
 
 h1 {
@@ -35,12 +35,19 @@ h1 {
   margin-bottom: 30px;
 }
 
+.btn-row {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
 #micBtn {
   background: #6366f1;
   color: white;
   border: none;
-  padding: 15px 40px;
-  font-size: 1.1rem;
+  padding: 15px 30px;
+  font-size: 1rem;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -54,6 +61,23 @@ h1 {
 #micBtn.listening {
   background: #ef4444;
   animation: pulse 1s infinite;
+}
+
+#viewEventsBtn {
+  background: #1e1e3a;
+  color: #a78bfa;
+  border: 1px solid #6366f1;
+  padding: 15px 30px;
+  font-size: 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#viewEventsBtn:hover {
+  background: #6366f1;
+  color: white;
+  transform: scale(1.05);
 }
 
 @keyframes pulse {
@@ -162,4 +186,49 @@ h1 {
 #customBtn:hover {
   background: #6366f1;
   color: white;
+}
+
+.events-title {
+  color: #a78bfa;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.event-card {
+  background: #0f0f1a;
+  border: 1px solid #2d2d4e;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 10px;
+  text-align: left;
+  transition: border 0.2s ease;
+}
+
+.event-card:hover {
+  border-color: #6366f1;
+}
+
+.event-card .event-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 5px;
+}
+
+.event-card .event-time {
+  font-size: 0.85rem;
+  color: #6366f1;
+}
+
+.event-card .event-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.no-events {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-top: 10px;
 }

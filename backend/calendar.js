@@ -90,3 +90,4 @@ If you can't find a date, use today's date. If no time mentioned, use "09:00".`
 }
 
 module.exports = { getAuthUrl, handleCallback, setTokens, createCalendarEvent, parseEventFromTranscript };
+module.exports = { getAuthUrl, handleCallback, setTokens, createCalendarEvent, parseEventFromTranscript, oauth2Client };

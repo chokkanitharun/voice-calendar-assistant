@@ -11,7 +11,10 @@
     <h1>🎙️ Voice Calendar Assistant</h1>
     <p class="subtitle">Speak to add events to your calendar</p>
 
-    <button id="micBtn">🎤 Start Listening</button>
+    <div class="btn-row">
+      <button id="micBtn">🎤 Start Listening</button>
+      <button id="viewEventsBtn">📅 My Events</button>
+    </div>
 
     <div id="status">Click the button and speak...</div>
     <div id="transcript"></div>
@@ -31,6 +34,11 @@
     </div>
 
     <div id="result"></div>
+
+    <div id="eventsSection" style="display:none;">
+      <h2 class="events-title">📋 Upcoming Events</h2>
+      <div id="eventsList"></div>
+    </div>
   </div>
 
   <script src="app.js"></script>

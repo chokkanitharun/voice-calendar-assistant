@@ -4,6 +4,9 @@ const transcript = document.getElementById('transcript');
 const result = document.getElementById('result');
 const durationSection = document.getElementById('durationSection');
 const durBtns = document.querySelectorAll('.dur-btn');
+const viewEventsBtn = document.getElementById('viewEventsBtn');
+const eventsSection = document.getElementById('eventsSection');
+const eventsList = document.getElementById('eventsList');
 
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 recognition.lang = 'en-US';
@@ -11,6 +14,7 @@ recognition.interimResults = false;
 
 let listening = false;
 let lastTranscript = '';
+let eventsVisible = false;
 
 micBtn.addEventListener('click', () => {
   if (!listening) {
@@ -69,6 +73,60 @@ document.getElementById('customBtn').addEventListener('click', () => {
   sendToBackend(lastTranscript, val);
 });
 
+viewEventsBtn.addEventListener('click', async () => {
+  if (eventsVisible) {
+    eventsSection.style.display = 'none';
+    viewEventsBtn.textContent = '📅 My Events';
+    eventsVisible = false;
+    return;
+  }
+
+  viewEventsBtn.textContent = '⏳ Loading...';
+
+  try {
+    const response = await fetch('/api/events');
+    const data = await response.json();
+
+    if (data.success && data.events.length > 0) {
+      eventsList.innerHTML = '';
+      data.events.forEach(event => {
+        const start = event.start.dateTime || event.start.date;
+        const date = new Date(start);
+        const formatted = date.toLocaleString('en-IN', {
+          dateStyle: 'medium',
+          timeStyle: 'short'
+        });
+
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.innerHTML = `
+          <div class="event-name">📌 ${event.summary}</div>
+          <div class="event-time">🕐 ${formatted}</div>
+          ${event.description ? `<div class="event-desc">${event.description}</div>` : ''}
+        `;
+        eventsList.appendChild(card);
+      });
+
+      eventsSection.style.display = 'block';
+      eventsVisible = true;
+      viewEventsBtn.textContent = '❌ Hide Events';
+    } else if (data.success && data.events.length === 0) {
+      eventsList.innerHTML = '<p class="no-events">No upcoming events found!</p>';
+      eventsSection.style.display = 'block';
+      eventsVisible = true;
+      viewEventsBtn.textContent = '❌ Hide Events';
+    } else {
+      result.className = 'error';
+      result.textContent = `❌ ${data.message} — please login at /auth first`;
+      viewEventsBtn.textContent = '📅 My Events';
+    }
+  } catch (err) {
+    result.className = 'error';
+    result.textContent = '❌ Could not fetch events';
+    viewEventsBtn.textContent = '📅 My Events';
+  }
+});
+
 async function sendToBackend(text, durationMinutes) {
   try {
     const response = await fetch('/api/parse-event', {
@@ -85,6 +143,12 @@ async function sendToBackend(text, durationMinutes) {
       durationSection.style.display = 'none';
       status.textContent = 'Click the button and speak...';
       transcript.textContent = '';
+
+      // Refresh events list if visible
+      if (eventsVisible) {
+        viewEventsBtn.click();
+        viewEventsBtn.click();
+      }
     } else {
       result.className = 'error';
       result.textContent = `❌ ${data.message}`;

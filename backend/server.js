@@ -1,4 +1,6 @@
+const { scheduleReminder } = require('./scheduler');
 const express = require('express');
+
 const dotenv = require('dotenv');
 const path = require('path');
 const { getAuthUrl, handleCallback, setTokens, createCalendarEvent, parseEventFromTranscript } = require('./calendar');
@@ -30,6 +32,30 @@ app.get('/auth/callback', async (req, res) => {
     res.redirect('/?auth=error');
   }
 });
+app.get('/api/events', async (req, res) => {
+  if (!savedTokens) {
+    return res.json({ success: false, message: 'Not logged in with Google' });
+  }
+
+  try {
+    setTokens(savedTokens);
+    const { google } = require('googleapis');
+    const calendar = google.calendar({ version: 'v3', auth: require('./calendar').oauth2Client });
+
+    const response = await calendar.events.list({
+      calendarId: 'primary',
+      timeMin: new Date().toISOString(),
+      maxResults: 10,
+      singleEvents: true,
+      orderBy: 'startTime'
+    });
+
+    res.json({ success: true, events: response.data.items });
+  } catch (err) {
+    console.error(err);
+    res.json({ success: false, message: 'Failed to fetch events' });
+  }
+});
 
 app.post('/api/parse-event', async (req, res) => {
   const { transcript, durationMinutes } = req.body;
@@ -45,7 +71,8 @@ app.post('/api/parse-event', async (req, res) => {
     if (savedTokens) {
       setTokens(savedTokens);
       const createdEvent = await createCalendarEvent(eventData);
-      res.json({ success: true, event: eventData, calendarLink: createdEvent.htmlLink });
+scheduleReminder(eventData);
+res.json({ success: true, event: eventData, calendarLink: createdEvent.htmlLink });
     } else {
       res.json({ success: true, event: eventData, message: 'Parsed but not saved — please login with Google first' });
     }
